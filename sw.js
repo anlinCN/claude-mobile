@@ -1,5 +1,5 @@
-const CACHE = 'claude-chat-v2';
-const FILES = ['index.html', 'manifest.json', 'icon.svg'];
+const CACHE = 'claude-chat-v4';
+const FILES = ['index.html', 'manifest.json', 'app-icon.png', 'logo.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
