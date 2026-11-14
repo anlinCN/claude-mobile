@@ -1,4 +1,4 @@
-const CACHE = 'claude-chat-v1';
+const CACHE = 'claude-chat-v2';
 const FILES = ['index.html', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', e => {
