@@ -100,6 +100,8 @@ footer { padding:8px 12px calc(12px + env(safe-area-inset-bottom)); flex-shrink:
 <div id="dialog">
   <div class="box">
     <strong>设置</strong>
+    <label>API 地址（中转站填它的地址，官方留空）</label>
+    <input id="baseInput" type="text" placeholder="https://你的中转站地址">
     <label>API Key</label>
     <input id="keyInput" type="password" placeholder="sk-ant-...">
     <label>默认模型</label>
@@ -233,7 +235,8 @@ async function stream(c) {
   scrollDown();
   let answer = '';
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const base = localStorage.getItem('api_base') || 'https://api.anthropic.com';
+    const res = await fetch(base + '/v1/messages', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -301,6 +304,7 @@ function closeSide() { $('side').classList.remove('open'); $('mask').classList.r
 
 function openSettings() {
   $('keyInput').value = localStorage.getItem('anthropic_key') || '';
+  $('baseInput').value = localStorage.getItem('api_base') || '';
   $('defModel').value = localStorage.getItem('default_model') || 'claude-sonnet-5-5';
   $('dialog').style.display = 'flex';
   closeSide();
@@ -314,6 +318,7 @@ $('newChat').onclick = () => { if (!busy) newConv(); };
 $('keyCancel').onclick = () => { $('dialog').style.display = 'none'; };
 $('keySave').onclick = () => {
   localStorage.setItem('anthropic_key', $('keyInput').value.trim());
+  localStorage.setItem('api_base', $('baseInput').value.trim().replace(/\/+$/, ''));
   localStorage.setItem('default_model', $('defModel').value);
   $('model').value = $('defModel').value;
   $('dialog').style.display = 'none';
